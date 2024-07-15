@@ -4,7 +4,6 @@ import type { User } from 'next-auth'
 import Link from 'next/link'
 
 import SearchButton from '@/components/layouts/SearchButton'
-import UserAccountNav from '@/components/auth/UserAccountNav'
 import CartButton from '@/components/cart/CartButton'
 
 import { buttonVariants } from '@/components/ui/Button'

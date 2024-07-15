@@ -4,7 +4,6 @@ import { UTApi } from 'uploadthing/server'
 
 const utapi = new UTApi()
 
-import { getAuthSession } from '@/lib/auth'
 import prisma from '@/lib/db'
 import { productSchema } from '@/lib/validators/product'
 import { auth } from '@clerk/nextjs/server'
@@ -15,7 +14,6 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth();
-    // console.log('testt userId',userId)
     
     if (!userId) {
       return new Response('Unauthorized', { status: 401 })

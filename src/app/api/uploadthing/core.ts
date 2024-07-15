@@ -1,4 +1,3 @@
-import { getAuthSession } from '@/lib/auth'
 import { auth } from '@clerk/nextjs/server';
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
 

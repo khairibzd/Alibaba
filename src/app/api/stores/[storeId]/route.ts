@@ -1,7 +1,6 @@
 import slugify from 'slugify'
 import { z } from 'zod'
 
-import { getAuthSession } from '@/lib/auth'
 import prisma from '@/lib/db'
 import { storeSchema } from '@/lib/validators/store'
 import { auth } from '@clerk/nextjs/server'

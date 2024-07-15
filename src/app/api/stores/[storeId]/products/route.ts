@@ -1,7 +1,6 @@
 import slugify from 'slugify'
 import { z } from 'zod'
 
-import { getAuthSession } from '@/lib/auth'
 import prisma from '@/lib/db'
 import { productSchema } from '@/lib/validators/product'
 import { auth } from '@clerk/nextjs/server'
@@ -12,7 +11,6 @@ export async function POST(
 ) {
   try {
     const { userId } = auth();
-    console.log('testt userId',userId)
     
     if (!userId) {
       return new Response('Unauthorized', { status: 401 })
