@@ -1,61 +1,78 @@
-import Link from 'next/link'
-// import OAuthSignIn from '@/components/auth/OAuthSignIn'
-import { SignIn, SignUp } from "@clerk/nextjs";
+'use client';
 
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from '@/components/ui/Card'
+import * as React from 'react';
+import { useSignIn } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
-export default async function SignInPage() {
-  
+export default function SignInForm() {
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const router = useRouter();
+
+  // Handle the submission of the sign-in form
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!isLoaded) {
+      return;
+    }
+
+    // Start the sign-in process using the email and password provided
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: email,
+        password,
+      });
+
+      // If sign-in process is complete, set the created session as active
+      // and redirect the user
+      if (signInAttempt.status === 'complete') {
+        // if(email != "khayrouna.bouzid@gmail.com"){
+        //   toast.error('you dont have access')
+        // }
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.push('/dashboard/stores');
+      } else {    
+        // If the status is not complete, check why. User may need to
+        // complete further steps.
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
+  // Display a form to capture the user's email and password
   return (
-    <div className='mx-auto'>
-      {/* <Card className='w- xl:w-[500px]'>
-        <CardHeader className='space-y-1'>
-          <CardTitle className='text-2xl'>Sign in</CardTitle>
-          <CardDescription>
-            Choose your preferred sign in method
-          </CardDescription>
-        </CardHeader>
-        <CardContent className='grid grid-cols-1'>
-          <OAuthSignIn />
-        </CardContent>
-        <CardFooter className='flex flex-wrap items-center justify-between gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            <span className='mr-1 inline-block'>
-              Don&apos;t have an account?
-            </span>
-            <Link
-              aria-label='Sign up'
-              href='/sign-up'
-              className='text-primary underline-offset-4 transition-colors hover:underline'>
-              Sign up
-            </Link>
-          </div>
-        </CardFooter>
-      </Card> */}
-      <SignIn
-            appearance={{
-              elements: {
-                formButtonPrimary: {
-                  fontSize: 14,
-                  textTransform: "none",
-                  backgroundColor: "#071952",
-                  "&:hover, &:focus, &:active": {
-                    backgroundColor: "#37B7C3",
-                    
-                  },
-                
-                },
-              },
-            }}
-            path="/sign-in"
+    <>
+      <h1>Sign in</h1>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <div>
+          <label htmlFor="email">Enter email address</label>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            name="email"
+            type="email"
+            value={email}
           />
-    </div>
-  )
+        </div>
+        <div>
+          <label htmlFor="password">Enter password</label>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+          />
+        </div>
+        <button type="submit">Sign in</button>
+      </form>
+    </>
+  );
 }

@@ -2,6 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { Store } from "@prisma/client";
+import prisma from '@/lib/db'
 
 export const getStores = async (): Promise<Store[]> => {
   const { userId } = auth();
@@ -22,9 +23,9 @@ export const getStoreById = async (storeId: String): Promise<Store> => {
 
   const Store = await prisma.store.findFirst({
     where: {
-      id: storeId,
+      id: storeId as any,
       userId: userId as any,
     },
   });
-  return Store;
+  return Store as any;
 };
