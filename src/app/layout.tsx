@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   title: "Alibaba",
   description: "pants shop",
   category: "ecommerce",
+  icons: {
+    icon: "images/Logo.png",
+  },
+
   authors: { name: "Bouzid khairi" },
   keywords: [
     "Next.js",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
   creator: "Mohamed khairi bouzid",
   publisher: "Mohamed khairi bouzid",
   openGraph: {
-    title: "jake",
+    title: "Alibaba",
     description: "Pants shop",
     url: "https://alibaba-toteltech.vercel.app/",
     siteName: "Alibaba",

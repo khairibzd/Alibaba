@@ -52,7 +52,7 @@ const Products = async ({
   }
 
   return (
-    <div className='flex flex-col py-6 sm:py-10 px-4 sm:px-6 lg:px-8'>
+    <div className='flex flex-col pb-24 pt-6  px-4  lg:px-8'>
       <Heading
         title={`Products (${totalProducts})`}
         description='Explore all products of alibaba'

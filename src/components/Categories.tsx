@@ -25,7 +25,7 @@ const Category = () => {
           </h3>
         </Link>
         <Link
-          href={"products/women"}
+          href={"products?category=women"}
           className="sq-women"
           data-aos="zoom-in"
           data-aos-duration="1500"

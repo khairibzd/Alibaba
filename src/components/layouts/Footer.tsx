@@ -17,7 +17,7 @@ const Footer = () => {
 
   return (
     <footer className="text-gray-300 bg-black py-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-20 pl-8  w-full gap-16 md:gap-10 lg:gap-5 xl:gap-10 2xl:px-20 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-20 pl-8  w-full gap-16 md:gap-10 lg:gap-5 xl:gap-10 ">
         <div className="footer-col-1 flex flex-col items-start">
           <Link
             data-aos="fade-up"

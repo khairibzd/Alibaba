@@ -22,8 +22,8 @@ async function main() {
   });
   const woman = await prisma.category.create({
     data: {
-      name: "Woman",
-      slug: "woman",
+      name: "Women",
+      slug: "women",
     },
   });
 

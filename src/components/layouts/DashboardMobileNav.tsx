@@ -3,8 +3,9 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
 import { Icons } from "@/components/Icons";
+import Image from "next/image";
+
 import {
   Accordion,
   AccordionContent,
@@ -33,8 +34,15 @@ const DashboardMobileNav = () => {
               className="flex items-center"
               onClick={() => setIsOpen(false)}
             >
-              <Icons.logo className="mr-2 h-4 w-4" aria-hidden="true" />
-              <span className="font-bold">Skaters</span>
+              {/* <Icons.logo className="mr-2 h-4 w-4" aria-hidden="true" /> */}
+              <Image
+                src={"/images/Logo.png"}
+                width={40}
+                height={20}
+                alt="totaltech"
+                className="mr-2  "
+              />
+              <span className="font-bold">Alibaba</span>
               <span className="sr-only">Home</span>
             </Link>
             <div className="text-sm">

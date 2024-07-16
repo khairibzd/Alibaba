@@ -50,7 +50,7 @@ const MobileNav = () => {
                 defaultValue={["item-1", "item-2", "item-3"]}
                 className="w-full"
               >
-                <AccordionItem value="item-1">
+                {/* <AccordionItem value="item-1">
                   <AccordionTrigger>My Dashboard</AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col gap-y-2 text-muted-foreground">
@@ -68,7 +68,7 @@ const MobileNav = () => {
                       </Link>
                     </div>
                   </AccordionContent>
-                </AccordionItem>
+                </AccordionItem> */}
                 <AccordionItem value="item-2">
                   <AccordionTrigger>Lobby</AccordionTrigger>
                   <AccordionContent>

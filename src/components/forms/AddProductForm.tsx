@@ -121,7 +121,7 @@ export function AddProductForm() {
                     <SelectItem value='men'>Men</SelectItem>
                     <SelectItem value='clothing'>Clothing</SelectItem>
                     <SelectItem value='shoes'>Shoes</SelectItem>
-                    <SelectItem value='woman'>Woman</SelectItem>
+                    <SelectItem value='women'>Women</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
