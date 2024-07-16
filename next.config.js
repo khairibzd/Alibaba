@@ -5,6 +5,7 @@ const nextConfig = {
       "uploadthing.com",
       "lh3.googleusercontent.com",
       "images.pexels.com",
+      "res.cloudinary.com",
     ],
     remotePatterns: [
       {
@@ -13,7 +14,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://www.pexels.com/",
+        hostname: "www.pexels.com",
       },
     ],
   },

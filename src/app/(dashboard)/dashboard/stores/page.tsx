@@ -8,13 +8,15 @@ import { Separator } from "@/components/ui/Separator";
 import { getStores } from "@/actions/get-stores";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
 const StorePage = async () => {
-  // const { userId } = auth();
+  const supabase = createClient();
 
-  // if (!userId) {
-  //   redirect("/sign-in");
-  // }
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
   const stores = await getStores();
   // console.log(stores)
 
@@ -28,6 +30,7 @@ const StorePage = async () => {
           </Link>
         )}
       </div>
+
       <Separator className="my-4" />
       {stores.length > 0 ? (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

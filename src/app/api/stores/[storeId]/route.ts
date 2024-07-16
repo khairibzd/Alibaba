@@ -4,15 +4,17 @@ import { z } from 'zod'
 import prisma from '@/lib/db'
 import { storeSchema } from '@/lib/validators/store'
 import { auth } from '@clerk/nextjs/server'
+import { createClient } from '@/utils/supabase/server'
 
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string } },
 ) {
   try {
-    const { userId } = auth();
+    const supabase = createClient()
 
-    if (!userId) {
+    const { data } = await supabase.auth.getUser()    
+    if (!data.user) {
       return new Response('Unauthorized', { status: 401 })
     }
 
@@ -37,7 +39,7 @@ export async function PATCH(
     await prisma.store.update({
       where: {
         id: params.storeId,
-        userId: userId,
+        userId: data.user.id,
       },
       data: {
         id: slug,
@@ -65,16 +67,16 @@ export async function DELETE(
   { params }: { params: { storeId: string } },
 ) {
   try {
-    const { userId } = auth();
-    // console.log('testt userId',userId)
-    
-    if (!userId) {
+    const supabase = createClient()
+
+    const { data } = await supabase.auth.getUser()    
+    if (!data.user) {
       return new Response('Unauthorized', { status: 401 })
     }
     const store = await prisma.store.findUnique({
       where: {
         id: params.storeId,
-        userId: userId,
+        userId: data.user.id,
       },
     })
 
@@ -85,7 +87,7 @@ export async function DELETE(
     await prisma.store.delete({
       where: {
         id: params.storeId,
-        userId: userId,
+        userId: data.user.id,
       },
     })
 

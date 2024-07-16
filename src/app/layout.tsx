@@ -9,6 +9,8 @@ import "./globals.css";
 import Footer from "@/components/layouts/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://alibaba-toteltech.vercel.app"),
+
   title: "Alibaba",
   description: "pants shop",
   category: "ecommerce",

@@ -5,12 +5,14 @@ import prisma from '@/lib/db'
 import { storeSchema } from '@/lib/validators/store'
 import { auth, getAuth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/utils/supabase/server'
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
-    
-    if (!userId) {
+    const supabase = createClient()
+
+    const { data } = await supabase.auth.getUser()    
+    if (!data.user) {
       return new Response('Unauthorized', { status: 401 })
     }
 
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
         id: slug,
         name,
         description,
-        userId:userId,
+        userId:data.user.id,
       },
     })
 

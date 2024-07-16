@@ -5,10 +5,11 @@ import { SidebarNav } from "@/components/layouts/SidebarNav";
 import { useUser } from "@clerk/nextjs";
 import DashboardNav from "@/components/layouts/DashboardNav";
 import { auth } from "@clerk/nextjs/server";
+import { createClient } from "@/utils/supabase/server";
 
-export default function DashboardLayout({ children }: React.PropsWithChildren) {
+export default async function DashboardLayout({ children }: React.PropsWithChildren) {
 
-  
+
   return (
 
     <>

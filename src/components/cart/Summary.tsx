@@ -2,7 +2,6 @@
 
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
@@ -10,77 +9,75 @@ import { toast } from 'react-hot-toast'
 import { Button } from '@/components/ui/Button'
 import useCart from '@/hooks/useCart'
 import { formatPrice } from '@/lib/utils'
-import { useAuth } from '@clerk/nextjs'
 
 const Summary = () => {
-  const [token, setToken] = useState<string>('')
-  // const session = useSession()
-  const {userId} = useAuth()
-  const router = useRouter()
+  // const [token, setToken] = useState<string>('')
+  // // const session = useSession()
+  // const router = useRouter()
   const cart = useCart()
-
+  
   const totalPrice = cart.items.reduce((total, item) => {
     return total + Number(item.price)
   }, 0)
 
-  const { mutate: onCheckout, isPending } = useMutation({
-    mutationFn: async () => {
-      if (!userId) {
-        return router.push('/sign-in')
-      }
+  // const { mutate: onCheckout, isPending } = useMutation({
+  //   mutationFn: async () => {
+  //     // if (!userId) {
+  //     //   return router.push('/sign-in')
+  //     // }
 
-      const productIds = cart.items.map((item) => item.id)
-      const { data } = await axios.post('/api/payments/charge', { productIds })
+  //     const productIds = cart.items.map((item) => item.id)
+  //     const { data } = await axios.post('/api/payments/charge', { productIds })
 
-      return data
-    },
-    onError(error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data)
-      }
-    },
-    onSuccess(data) {
-      setToken(data.token)
-      cart.removeAll()
-    },
-  })
+  //     return data
+  //   },
+  //   onError(error) {
+  //     if (error instanceof AxiosError) {
+  //       toast.error(error.response?.data)
+  //     }
+  //   },
+  //   onSuccess(data) {
+  //     setToken(data.token)
+  //     cart.removeAll()
+  //   },
+  // })
 
-  useEffect(() => {
-    if (token) {
-      // @ts-expect-error
-      window.snap.pay(token, {
-        onSuccess: () => {
-          router.push('/dashboard/orders')
-          toast.success('Payment success!')
-        },
-        onPending: () => {
-          router.push('/dashboard/orders')
-          toast('Waiting your payment..')
-        },
-        onError: () => {
-          toast.error('Payment failed, something went wrong')
-        },
-        onClose: () => {
-          window.location.assign('/dashboard/orders')
-          toast.error('You have not completed the payment.')
-        },
-      })
-    }
-  }, [token, router])
+  // useEffect(() => {
+  //   if (token) {
+  //     // @ts-expect-error
+  //     window.snap.pay(token, {
+  //       onSuccess: () => {
+  //         router.push('/dashboard/orders')
+  //         toast.success('Payment success!')
+  //       },
+  //       onPending: () => {
+  //         router.push('/dashboard/orders')
+  //         toast('Waiting your payment..')
+  //       },
+  //       onError: () => {
+  //         toast.error('Payment failed, something went wrong')
+  //       },
+  //       onClose: () => {
+  //         window.location.assign('/dashboard/orders')
+  //         toast.error('You have not completed the payment.')
+  //       },
+  //     })
+  //   }
+  // }, [token, router])
 
-  useEffect(() => {
-    const midtransUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'
+  // useEffect(() => {
+  //   const midtransUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'
 
-    let scriptTag = document.createElement('script')
-    scriptTag.src = midtransUrl
-    scriptTag.setAttribute('data-client-key', process.env.MIDTRANS_CLIENT_KEY!)
+  //   let scriptTag = document.createElement('script')
+  //   scriptTag.src = midtransUrl
+  //   scriptTag.setAttribute('data-client-key', process.env.MIDTRANS_CLIENT_KEY!)
 
-    document.body.appendChild(scriptTag)
+  //   document.body.appendChild(scriptTag)
 
-    return () => {
-      document.body.removeChild(scriptTag)
-    }
-  }, [])
+  //   return () => {
+  //     document.body.removeChild(scriptTag)
+  //   }
+  // }, [])
 
   return (
     <div
@@ -103,8 +100,8 @@ const Summary = () => {
           {formatPrice(totalPrice)}
         </div>
         <Button
-          disabled={cart.items.length === 0 || isPending}
-          isLoading={isPending}
+          // disabled={cart.items.length === 0 || isPending}
+          // isLoading={isPending}
           // onClick={() => onCheckout()}
           className='w-full mt-6 hover:before:-translate-x-[500px]'
         >

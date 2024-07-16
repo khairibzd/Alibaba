@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react'
 import ProductCard from '@/components/cards/ProductCard'
 import ProductCardSkeleton from '@/components/skeletons/ProductCardSkeleton'
 import { INFINITE_SCROLL_LIMIT } from '@/config'
+import prisma from '@/lib/db'
 
 interface ProductsListProps {
   initialProducts: Product[]
@@ -79,5 +80,31 @@ const ProductsList: React.FC<ProductsListProps> = ({
     </div>
   )
 }
+// export async function getStaticProps() {
+//   try {
+//     const { data: initialProducts } = await axios.get(
+//       `${process.env.NEXT_PUBLIC_API_URL}/api/products?limit=${INFINITE_SCROLL_LIMIT}&page=1`
+//     )
+
+ 
+//     const totalProductsWithoutCategory = await prisma.product.count()
+
+
+//     return {
+//       props: {
+//         initialProducts,
+//         totalProductsWithoutCategory,
+//       },
+//       revalidate: 10, // Revalidate every 10 seconds
+//     }
+//   } catch (error) {
+//     return {
+//       props: {
+//         initialProducts: [],
+//         totalData: 0,
+//       },
+//     }
+//   }
+// }
 
 export default ProductsList

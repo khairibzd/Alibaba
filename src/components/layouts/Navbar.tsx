@@ -9,9 +9,15 @@ import DesktopNav from '@/components/layouts/DesktopNav'
 import MobileNav from '@/components/layouts/MobileNav'
 import { buttonVariants } from '@/components/ui/Button'
 import { UserButton, useUser } from '@clerk/nextjs'
+import UserAccountNav from '../auth/UserAcountNav'
 
-const Navbar = () => {
-  const { user } = useUser();
+interface NavbarProps {
+  user?: User & {
+    id: string
+  }
+}
+const Navbar= () => {
+  // const { user } = useUser();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background py-3">
@@ -24,19 +30,7 @@ const Navbar = () => {
         <div className="flex items-center gap-x-2">
           <SearchButton />
           <CartButton />
-          {/* {user ? (
-            <UserButton />
-          ) : (
-            <Link
-              href="/sign-in"
-              className={buttonVariants({
-                size: "sm",
-              })}
-            >
-              Sign In
-              <span className="sr-only">Sign In</span>
-            </Link>
-          )} */}
+         
         </div>
       </nav>
     </header>

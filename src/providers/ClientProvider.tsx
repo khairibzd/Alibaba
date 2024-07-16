@@ -11,10 +11,10 @@ const ClientProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <SessionProvider> */}
-      <ClerkProvider>
+      {/* <ClerkProvider> */}
         <Toaster />
         {children}
-      </ClerkProvider>
+      {/* </ClerkProvider> */}
 
       {/* </SessionProvider> */}
     </QueryClientProvider>

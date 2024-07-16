@@ -7,15 +7,17 @@ const utapi = new UTApi()
 import prisma from '@/lib/db'
 import { productSchema } from '@/lib/validators/product'
 import { auth } from '@clerk/nextjs/server'
+import { createClient } from '@/utils/supabase/server'
 
 export async function PATCH(
   req: Request,
   { params }: { params: { storeId: string; productId: string } },
 ) {
   try {
-    const { userId } = auth();
-    
-    if (!userId) {
+    const supabase = createClient()
+
+    const { data } = await supabase.auth.getUser()    
+    if (!data.user) {
       return new Response('Unauthorized', { status: 401 })
     }
 
