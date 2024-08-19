@@ -38,6 +38,7 @@ export const productSchema = z.object({
       url: z.string(),
     })
     .array(),
+    
 })
 
 export type productPayload = z.infer<typeof productSchema>

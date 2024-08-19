@@ -35,15 +35,15 @@ const DashboardNav = async () => {
         {data.user ? (
             <UserAccountNav user={data.user} />
           ) : (
-            <Link
-              href='/sign-in'
-              className={buttonVariants({
-                size: 'sm',
-              })}
-            >
-              Sign In
-              <span className='sr-only'>Sign In</span>
-            </Link>
+              <Link
+                href='/sign-in'
+                className={buttonVariants({
+                  size: 'sm',
+                })}
+              >
+                Sign In
+                <span className='sr-only'>Sign In</span>
+              </Link>
           )}
         </div>
       </nav>
