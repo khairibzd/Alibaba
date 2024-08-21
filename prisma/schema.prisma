@@ -84,3 +84,12 @@ model OrderItem {
   @@index([productId])
 }
 
+
+model Embeddings {
+  id        String  @id @default(uuid()) @db.VarChar(191)
+  document String  @db.Text  //the original text from with the embeddings was generated
+  embedding String? @db.Text // Assuming embedding is stored as text for now, adjust based on actual data type //he numerical representation of the text
+  metadata  Json    @db.Json
+
+  @@index([embedding], map: "embeddingIndex")
+}
