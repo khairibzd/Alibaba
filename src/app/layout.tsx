@@ -7,6 +7,8 @@ import ClientProvider from "@/providers/ClientProvider";
 
 import "./globals.css";
 import Footer from "@/components/layouts/Footer";
+import { AI } from "@/chatBot/rsc/ai";
+import { Chat } from "@/chatBot/ui/components/chat";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://alibaba-toteltech.vercel.app"),
@@ -65,6 +67,9 @@ export default function RootLayout({
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           {children}
+          <AI>
+            <Chat/>
+          </AI>
         </ClientProvider>
       </body>
     </html>

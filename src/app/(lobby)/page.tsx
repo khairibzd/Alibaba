@@ -1,3 +1,4 @@
+import { ChatBotSpinnerMessage } from "@/chatBot/ui";
 import Categories from "@/components/Categories";
 import Gallery from "@/components/Gallery";
 import Hero from "@/components/Hero";
