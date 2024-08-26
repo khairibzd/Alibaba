@@ -10,6 +10,29 @@ import {
   ChatBotStreamMessage,
   ChatBotShowProductMessage,
 } from "@/chatBot/ui";
+import { z } from "zod";
+import useCart, { CartStore } from "@/hooks/useCart";
+import CartItem from "@/components/cart/CartItem";
+import { useRef } from "react";
+import { Product } from "@prisma/client";
+import { cookies } from "next/headers";
+
+// function getCartFromLocalStorage() {
+//   // console.log('testtt')
+//   // if (typeof window !== "undefined") {
+//     // console.log('testtt')
+
+//     const storedCart = localStorage.getItem("cart-storage");
+//     if (storedCart) {
+//       const parsedCart = JSON.parse(storedCart);
+//       // console.log('this is from teh getcart function',parsedCart?.state?.items);
+//       return parsedCart?.state?.items || [];
+//     }
+//   // }
+//   // console.log('testtt')
+
+//   return [];
+// }
 
 export async function submitUserMessage(content: string) {
   const availableProductStore = await prisma.product.findMany({
@@ -96,10 +119,99 @@ Messages inside [] means that it's a UI element or a user event. For example:
       return textNode;
     },
     tools: {
+      showCartInformation: {
+        description: "show the information about the state of the cart",
+        parameters: z.object({ dummy: z.string() }), // Add a dummy string property
+        generate: async function* ({}) {
+          const toolCallId = generateId();
+          yield <ChatBotSpinnerMessage />;
+          // Retrieve the cart from cookies
+          const cartCookie = cookies().get("cart-storage");
+          const cart: Product[] = cartCookie
+            ? JSON.parse(decodeURIComponent(cartCookie.value)).state.items
+            : [];
+          console.log(cart);
+          if (cart.length === 0) {
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: generateId(),
+                  role: "assistant",
+                  content: [
+                    {
+                      type: "tool-call",
+                      toolName: "showCartInformation",
+                      toolCallId,
+                      args: {},
+                    },
+                  ],
+                },
+                {
+                  id: generateId(),
+                  role: "tool",
+                  content: [
+                    {
+                      type: "tool-result",
+                      toolName: "showCartInformation",
+                      toolCallId,
+                      result: {
+                        cart: null,
+                      },
+                    },
+                  ],
+                },
+              ],
+            });
 
-    }
+            return (
+              <ChatBotMessage>Your cart is currently empty :(</ChatBotMessage>
+            );
+          }
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: generateId(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "showCartInformation",
+                    toolCallId,
+                    args: {},
+                  },
+                ],
+              },
+              {
+                id: generateId(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "showCartInformation",
+                    toolCallId,
+                    result: { cart },
+                  },
+                ],
+              },
+            ],
+          });
+          return (
+            <div className="flex flex-col gap-4">
+              <ChatBotMessage>Sure, this is your cart.</ChatBotMessage>
+              {cart.map((item) => (
+                <CartItem key={item.id} data={item} />
+              ))}{" "}
+            </div>
+          );
+        },
+      },
+    },
   });
-  
 
   return {
     id: generateId(),
